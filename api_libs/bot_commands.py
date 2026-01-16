@@ -1,6 +1,9 @@
 import settings as settings
 import google_api
 import usage
+import logging
+
+logger = logging.getLogger(__name__)
 
 gDrive = google_api.GoogleDriveAPI()
 
@@ -80,7 +83,13 @@ async def datamodel(client, message):
 	return await message.channel.send(usage.DATA_MODEL)
 
 async def debug_info(client, message):
-	print(message.channel, message.channel.category, message.guild, message.content)
+	logger.debug(
+		"debug_info channel=%s category=%s guild=%s content=%s",
+		message.channel,
+		message.channel.category,
+		message.guild,
+		message.content,
+	)
 	return await message.channel.send('channel: {0}, category: {1}'.format(message.channel, message.channel.category))
 
 PUBLIC_COMMANDS = [

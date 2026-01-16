@@ -1,14 +1,17 @@
 import discord
 import bot_commands
 import settings as settings
+import logging
 
 client = discord.Client()
 import usage
 
+logger = logging.getLogger(__name__)
+
 # when bot is ready to be used
 @client.event
 async def on_ready():
-	print('We have logged in as {0.user}'.format(client))
+	logger.info("We have logged in as %s", client.user)
 
 # gets a message
 @client.event
@@ -24,9 +27,9 @@ async def on_message(message):
 	# finds the first command that matches
 	for command in bot_commands.COMMANDS:
 		if command.matches(message.content):
-			print(f'Running command {command.invocation}')
+			logger.info("Running command %s", command.invocation)
 			return await command.invoke(client, message)
-	print(f'Command not found: {message.content}')
+	logger.warning("Command not found: %s", message.content)
 
 	# if starts with command but not sure what
 	return await message.channel.send("Command detected, but it doesn't match what I know. Try $help to list them.")

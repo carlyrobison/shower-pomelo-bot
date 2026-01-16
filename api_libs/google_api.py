@@ -1,6 +1,9 @@
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import settings as settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # helper function
@@ -17,7 +20,7 @@ def extract_id_from_sheets_url(url):
 class GoogleDriveAPI:
     def __init__(self):
         if settings.GOOGLE_API_AUTHN_INFO is None:
-            print('No google drive integration!')
+            logger.warning("No google drive integration!")
         self._credentials = service_account.Credentials.from_service_account_info(
             settings.GOOGLE_API_AUTHN_INFO,
             scopes=settings.GOOGLE_DRIVE_PERMISSIONS_SCOPES,
